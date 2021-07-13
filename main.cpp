@@ -2,22 +2,22 @@
 #include <cmath>
 using namespace std;
 
-double x_k(int k, double a, double b, int n) {
+double x(int k, double a, double b, int n) {
     double x_k = a + (b-a)/n * k;
     return x_k;
 }
 
-double d_x(double a, double b, int n) {
+double delta_x(double a, double b, int n) {
     double delta = (b-a)/n;
     return delta;
 }
 
 double integrate(double (*f)(double), double a, double b, int n) {
     double result = 0;
-    double delta_x = d_x(a, b, n);
+    double delta = delta_x(a, b, n);
 
-    for (int i=1; i<n; i++) {
-        result += f(x_k(i, a, b, n)) * delta_x; 
+    for (int k=1; k<n; k++) {
+        result += f(x(i, a, b, n)) * delta; 
     }
 
     return result;
