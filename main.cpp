@@ -17,7 +17,7 @@ double integrate(double (*f)(double), double a, double b, int n) {
     double delta = delta_x(a, b, n);
 
     for (int k=1; k<n; k++) {
-        result += f(x(i, a, b, n)) * delta; 
+        result += f(x(k, a, b, n)) * delta; 
     }
 
     return result;
