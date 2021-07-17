@@ -2,25 +2,34 @@
 #include <cmath>
 using namespace std;
 
-double x(int k, double a, double b, int n) {
-    double x_k = a + (b-a)/n * k;
-    return x_k;
+double delta_x(double a, double b, double n) {
+	double delta = (b - a) / n;
+	return delta;
 }
 
-double delta_x(double a, double b, int n) {
-    double delta = (b-a)/n;
-    return delta;
+double x_k(double a, double b, double k, double n) {
+	double x_ = a + delta_x(a, b, n) * k;
+	return x_;
 }
 
-double integrate(double (*f)(double), double a, double b, int n) {
-    double result = 0;
-    double delta = delta_x(a, b, n);
+double y_k(double (*f)(double), double a, double b, double k, double n) {
+	double y_ = f(x_k(a, b, k, n));
+	return y_;
+}
 
-    for (int k=1; k<n; k++) {
-        result += f(x(k, a, b, n)) * delta; 
-    }
+double integrate(double (*f)(double), double a, double b, double n) {
+	double I = 0;
+	double L = 0;
+	double T = 0;
 
-    return result;
+	for (int k = 0; k < n; k++) {
+		T = y_k(f, a, b, k, n);
+		if (k == 0 || k == n) { L += T; }
+		else { L += 2*T; }
+	}
+
+	I = delta_x(a, b, n) / 2 * L;
+	return I;
 }
 
 int main() {
